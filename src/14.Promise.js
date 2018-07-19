@@ -7,13 +7,13 @@ function timeout(ms) {
         // 附加参数，一旦定时器到期，它们会作为参数传递给function 或 执行字符串（setTimeout参数中的code
         // 参考：MDN
         // url：https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setTimeout
-        setTimeout(resolve, ms, 'seven');
+        setTimeout(resolve, ms, '实例1');
     })
 }
 
-timeout(2000).then((value) => {
-    console.log(value)
-})
+// timeout(2000).then((value) => {
+//     console.log(value)
+// })
 
 
 // ★★★  实例2  ★★★
@@ -22,10 +22,10 @@ let promise = new Promise(function (resolve, reject) {
     console.log('Promise');
     resolve();
 })
-promise.then(function () {
-    console.log('resolved')
-})
-console.log('实例2')
+// promise.then(function () {
+//     console.log('resolved')
+// })
+// console.log('实例2')
 
 
 // ★★★  实例3  ★★★
@@ -45,4 +45,62 @@ function loadImageAsync(url) {
         image.src = url;
     })
 }
-loadImageAsync('www.a.com')
+
+// let loadImagePromise = loadImageAsync('https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-669878.png')
+// loadImagePromise.then(function (res) {
+//     console.log('实例3-图片加载完成')
+// })
+
+
+// ★★★  实例4  ★★★
+// 使用Promise封装Ajax
+const getJSON = function (url) {
+    const promise = new Promise(function (resolve, reject) {
+        const client = new XMLHttpRequest();
+        client.open("GET", url);
+        client.onreadystatechange = function () {
+            if (this.readyState !== 4) {
+                return;
+            }
+            if (this.status === 200) {
+                resolve(this.response)
+            } else {
+                reject(url)
+            }
+        }
+        client.responseType = "json";
+        client.setRequestHeader("Accept", "application/json");
+        client.send();
+    })
+
+    return promise;
+}
+// getJSON('mock.json').then(function (res) {
+//     console.log("实例4-封装Ajax" + res)
+// }), function (err) {
+//     console.error("实例4-请求失败url:" + err);
+// }
+
+
+// ★★★  实例5  ★★★
+// Promise2 的参数 传入 Promise1
+// 结果：Promise1状态确认后，Promise2立即调用
+//      Promise1 resolve或reject并不会终结 Promise2 的参数函数的执行.
+const promise1 = new Promise(function (resolve, reject) {
+    setTimeout(() => {
+        reject(new Error('fail'))
+    }, 3000)
+})
+const promise2 = new Promise(function (resolve, reject) {
+    setTimeout(() => {
+        resolve(promise1)
+    }, 1000)
+})
+
+promise2
+    .then(result => {
+        console.log('实例5-Promise2 的参数 传入 Promise1：' + result)
+    })
+    .catch(error => {
+        console.log('实例5-Promise2 的参数 传入 Promise1：' + error)
+    })
