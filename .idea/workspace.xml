@@ -40,8 +40,8 @@
       <file leaf-file-name="14.Promise.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/14.Promise.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="835">
-              <caret line="156" column="189" selection-start-line="156" selection-start-column="189" selection-end-line="156" selection-end-column="189" />
+            <state relative-caret-position="961">
+              <caret line="257" lean-forward="true" selection-start-line="257" selection-end-line="257" />
             </state>
           </provider>
         </entry>
@@ -111,10 +111,10 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="764" />
-    <option name="y" value="126" />
-    <option name="width" value="1676" />
-    <option name="height" value="1181" />
+    <option name="x" value="1034" />
+    <option name="y" value="65" />
+    <option name="width" value="1509" />
+    <option name="height" value="1318" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -197,18 +197,18 @@
       <option name="presentableId" value="Default" />
       <updated>1531892757386</updated>
       <workItem from="1531892758876" duration="347000" />
-      <workItem from="1531978975440" duration="3806000" />
+      <workItem from="1531978975440" duration="10185000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16911000" />
+    <option name="totallyTimeSpent" value="23290000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="764" y="126" width="1676" height="1181" extended-state="0" />
+    <frame x="1034" y="65" width="1509" height="1318" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17280966" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.14180107" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -365,8 +365,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/14.Promise.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="835">
-          <caret line="156" column="189" selection-start-line="156" selection-start-column="189" selection-end-line="156" selection-end-column="189" />
+        <state relative-caret-position="961">
+          <caret line="257" lean-forward="true" selection-start-line="257" selection-end-line="257" />
         </state>
       </provider>
     </entry>
