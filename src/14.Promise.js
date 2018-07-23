@@ -97,7 +97,7 @@
 {
     const promise1 = new Promise(function (resolve, reject) {
         setTimeout(() => {
-            reject(new Error('实例5-' + 'fail'))
+            // reject(new Error('实例5-' + 'fail'))
         }, 3000)
     })
     const promise2 = new Promise(function (resolve, reject) {
@@ -242,21 +242,63 @@
 // ★★★  实例11  ★★★
 // Promise.all()
 {
-    const p1 = new Promise((resolve, reject) => {
-        resolve('实例11-p1')
-    })
-        .then(result => {
-            result
+    // const p1 = new Promise((resolve, reject) => {
+    //     resolve('实例11-p1')
+    // })
+    //     .then(result => {
+    //         result
+    //     })
+    //     .catch(e => e);
+    //
+    // const p2 = new Promise((resolve, reject) => {
+    //     throw new Error('实例11-p2-报错');
+    // })
+    //     .then(result => result)
+    //     .catch(e => e)
+    //
+    // Promise.all([p1, p2])
+    //     .then(result => console.log(result))
+    //     .catch(e => console.log(e))
+}
+
+
+// ★★★  实例12  ★★★
+// Promise.race将多个 Promise 实例，包装成一个新的 Promise 实例。
+// 只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。
+{
+    // const p = Promise.race([
+    //     fetch('/resource-that-may-take-a-while'),
+    //     new Promise(function (resolve, reject) {
+    //         setTimeout(() => reject(new Error('request timeout')), 5000)
+    //     })
+    // ])
+    //
+    // p
+    //     .then(console.log)
+    //     .catch(console.error)
+}
+
+
+// ★★★  实例13  ★★★
+// Promise.resolve 将现有对象转为 Promise 对象
+{
+    Promise.resolve('实例13')
+    // 等价于
+    new Promise(resolve => resolve('实例13'))
+
+    // Promise.resolve 四种参数情况
+    // 1.如果参数是 Promise 实例，那么Promise.resolve将不做任何修改、原封不动地返回这个实例。
+
+    // 2.thenable对象指的是具有then方法的对象。
+    {
+        let thenable = {
+            then: function (resolve,reject) {
+                resolve('实例13-2thenable对象')
+            }
+        }
+        let p1 = Promise.resolve(thenable);
+        p1.then(function (value) {
+            console.log(value)
         })
-        .catch(e => e);
-
-    const p2 = new Promise((resolve, reject) => {
-        throw new Error('实例11-p2-报错');
-    })
-        .then(result => result)
-        .catch(e => e)
-
-    Promise.all([p1,p2])
-        .then(result => console.log(result))
-        .catch(e => console.log(e))
+    }
 }
