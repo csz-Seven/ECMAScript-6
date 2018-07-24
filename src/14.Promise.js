@@ -301,4 +301,20 @@
             console.log(value)
         })
     }
+
+    // 3.参数不是具有then方法的对象，或根本就不是对象.
+    {
+        const promise3 = Promise.resolve('实例13-3')
+        promise3.then(function (s) {
+            console.log(s)
+        })
+    }
+
+    // 4.不带参数
+    {
+        const p = Promise.resolve()
+        p.then(function () {
+            console.log('实例13-4 不带参数，立即返回resolved，立即执行then')
+        })
+    }
 }
