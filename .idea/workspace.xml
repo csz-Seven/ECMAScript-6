@@ -20,8 +20,8 @@
       <file leaf-file-name="14.Promise.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/14.Promise.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="591">
-              <caret line="338" column="16" lean-forward="true" selection-start-line="338" selection-start-column="16" selection-end-line="338" selection-end-column="16" />
+            <state relative-caret-position="794">
+              <caret line="354" column="20" selection-start-line="354" selection-start-column="20" selection-end-line="354" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -83,9 +83,9 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1012" />
+    <option name="x" value="1207" />
     <option name="y" value="39" />
-    <option name="width" value="1522" />
+    <option name="width" value="1327" />
     <option name="height" value="1353" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -96,6 +96,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -117,7 +118,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -176,27 +176,28 @@
       <workItem from="1531892758876" duration="347000" />
       <workItem from="1531978975440" duration="16307000" />
       <workItem from="1532400228072" duration="3252000" />
-      <workItem from="1532584210186" duration="1164000" />
+      <workItem from="1532584210186" duration="1298000" />
+      <workItem from="1532590544536" duration="706000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33828000" />
+    <option name="totallyTimeSpent" value="34668000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1012" y="39" width="1522" height="1353" extended-state="0" />
+    <frame x="1115" y="39" width="1419" height="1353" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12658228" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13590844" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32908913" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.17556635" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32908913" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.15286624" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.15241936" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -213,13 +214,17 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/14.Promise.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7824">
+          <caret line="326" column="7" selection-start-line="326" selection-start-column="7" selection-end-line="326" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -241,9 +246,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="6" column="7" lean-forward="true" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -353,9 +355,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -368,8 +367,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/14.Promise.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="591">
-          <caret line="338" column="16" lean-forward="true" selection-start-line="338" selection-start-column="16" selection-end-line="338" selection-end-column="16" />
+        <state relative-caret-position="794">
+          <caret line="354" column="20" selection-start-line="354" selection-start-column="20" selection-end-line="354" selection-end-column="20" />
         </state>
       </provider>
     </entry>
