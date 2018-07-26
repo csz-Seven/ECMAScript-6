@@ -292,7 +292,7 @@
     // 2.thenable对象指的是具有then方法的对象。
     {
         let thenable = {
-            then: function (resolve,reject) {
+            then: function (resolve, reject) {
                 resolve('实例13-2thenable对象')
             }
         }
@@ -318,3 +318,37 @@
         })
     }
 }
+
+
+// ★★★  实例14  ★★★
+// Promise.reject(reason) 将现有对象转为 Promise 对象,该实例的状态为rejected。
+{
+    const p =Promise.reject('实例14-Promise.reject')
+//  等同于
+    const p2 = new Promise((resolve, reject) => {
+        reject('实例14-Promise.reject-2')
+    })
+
+    p.then(null,function (s) {
+        console.log(s)
+    })
+}
+
+
+// ★★★  实例15  ★★★
+// Promise实现图片加载
+{
+    const preloadImage = function (path) {
+        return new Promise(function (resolve, reject) {
+            const image = new Image();
+            image.onload = resolve;
+            image.onerror = reject;
+            image.src = path;
+        })
+    }
+}
+
+
+// ★★★  实例16  ★★★
+// Promise.try()
+
