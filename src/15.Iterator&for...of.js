@@ -385,14 +385,14 @@
     // 如果一个对象在完成遍历前，需要清理或释放资源，就可以部署return方法。
     function readLinesSync(file) {
         return {
-            [Symbol.iterator] () {
-                return{
+            [Symbol.iterator]() {
+                return {
                     next() {
-                        return {done:false}
+                        return {done: false}
                     },
-                    return () {
+                    return() {
                         file.close();
-                        return {done:true}
+                        return {done: true}
                     }
                 }
             }
@@ -424,7 +424,7 @@
  *  描述:for ... of
  *  ES6 借鉴 C++、Java、C# 和 Python 语言，引入了for...of循环，作为遍历所有数据结构的统一的方法。
  *  一个数据结构只要部署了Symbol.iterator属性，就被视为具有 iterator 接口，就可以用for...of循环遍历它的成员。
-*/
+ */
 
 
 /**
@@ -433,17 +433,17 @@
  *  Email:csz.seven@gmail.com
  *  描述:实例14-数组Iterator
  *  使用：for...of循环可以代替数组实例的forEach方法
-*/
+ */
 {
-    const  arr = ['red','green','blue']
-    for(let i of arr){
-        console.log('实例14-1 →',i)
+    const arr = ['red', 'green', 'blue']
+    for (let i of arr) {
+        console.log('实例14-1 →', i)
     }
 
     const obj = {};
     obj[Symbol.iterator] = arr[Symbol.iterator].bind(arr)
-    for(let i of obj) {
-        console.log('实例14-2 →',i)
+    for (let i of obj) {
+        console.log('实例14-2 →', i)
     }
 }
 
@@ -453,16 +453,91 @@
  *  时间:2018/7/27 17:14
  *  Email:csz.seven@gmail.com
  *  描述:实例15-for...in /  for ...of 区别
-*/
+ */
 {
-    let arr = [1,2,3]
+    let arr = [1, 2, 3]
     arr.seven = 'for...in遍历的属性seven'
 
-    for(let i in arr){
-        console.log('实例15-for...in →',i,'←此处为 键')
+    for (let i in arr) {
+        console.log('实例15-for...in →', i, '←此处为 键')
     }
 
-    for(let i of arr){
-        console.log('实例15-for...of →',i,'←此处为 值')
+    for (let i of arr) {
+        console.log('实例15-for...of →', i, '←此处为 值')
     }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 17:26
+ *  Email:csz.seven@gmail.com
+ *  描述:实例16-Set、Map结构 Iterator
+ */
+{
+    var set = new Set(["1", "2", "3", "4",])
+    for (var e of set) {
+        console.log('实例16-Set →', e)
+    }
+
+    var map = new Map();
+    map.set('a', 1);
+    map.set('b', 2);
+    map.set('c', 3);
+    map.set('d', 4);
+    for (var [key, value] of map) {
+        console.log('实例16-Map →', key + ':' + value)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 17:41
+ *  Email:csz.seven@gmail.com
+ *  描述:实例17-使用Array.from转换为数组，使其具有Iterator接口
+ */
+{
+    let arrayLike = {length: 2, 0: 'a', 1: 'b'}
+    // 不能直接for ...of
+    // for (let x of arrayLike) {
+    //     console.log(x)
+    // }
+
+    console.log('实例17-使用Array.from转换为数组 前→', arrayLike)
+    console.log('实例17-使用Array.from转换为数组 后→', Array.from(arrayLike))
+    for (let x of Array.from(arrayLike)) {
+        console.log(x)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 17:53
+ *  Email:csz.seven@gmail.com
+ *  描述:实例18-普通对象 部署Iterator
+ */
+{
+    let someObject = {
+        'a': 1,
+        'b': 2,
+        'c': 3,
+    }
+    // 方法1
+    for (var key of Object.keys(someObject)) {
+        console.log("实例18-方法1 →" + key + ':' + someObject[key])
+    }
+
+    // 方法2 使用Generator重新包装
+    function* entries(obj) {
+        for (let key of Object.keys(someObject)) {
+            yield [key, obj[key]];
+        }
+    }
+
+    for (let [key, value] of entries(obj)) {
+        console.log(key, '->', value)
+    }
+    // 2018-07-27 19:56:39
 }

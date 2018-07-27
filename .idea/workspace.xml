@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1353157-15b0-4cc3-86e5-a53df522d302" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/15.Iterator&amp;for...of.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/15.Iterator&amp;for...of.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,8 +19,11 @@
       <file leaf-file-name="15.Iterator&amp;for...of.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/15.Iterator&amp;for...of.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="846">
-              <caret line="462" column="5" lean-forward="true" selection-start-line="462" selection-start-column="5" selection-end-line="462" selection-end-column="5" />
+            <state relative-caret-position="987">
+              <caret line="542" column="1" lean-forward="true" selection-start-line="542" selection-start-column="1" selection-end-line="542" selection-end-column="1" />
+              <folding>
+                <marker date="1532692604000" expanded="true" signature="10149:10210" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -198,12 +200,12 @@
       <workItem from="1532400228072" duration="3252000" />
       <workItem from="1532584210186" duration="1298000" />
       <workItem from="1532590544536" duration="15129000" />
-      <workItem from="1532678648615" duration="3420000" />
+      <workItem from="1532678648615" duration="6659000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52511000" />
+    <option name="totallyTimeSpent" value="55750000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1207" y="39" width="1327" height="1359" extended-state="0" />
@@ -216,7 +218,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.17556635" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32908913" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.15168539" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.15168539" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -239,6 +241,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8304">
           <caret line="351" lean-forward="true" selection-start-line="351" selection-end-line="351" />
+          <folding>
+            <marker date="1532692604000" expanded="true" signature="10149:10210" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -420,8 +425,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/15.Iterator&amp;for...of.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="846">
-          <caret line="462" column="5" lean-forward="true" selection-start-line="462" selection-start-column="5" selection-end-line="462" selection-end-column="5" />
+        <state relative-caret-position="987">
+          <caret line="542" column="1" lean-forward="true" selection-start-line="542" selection-start-column="1" selection-end-line="542" selection-end-column="1" />
+          <folding>
+            <marker date="1532692604000" expanded="true" signature="10149:10210" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
