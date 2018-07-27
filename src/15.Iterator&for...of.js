@@ -156,7 +156,7 @@
  *  作者:Seven
  *  时间:2018/7/26 17:59
  *  Email:csz.seven@gmail.com
- *  描述:实例6-对象手动增加Symbol.iterator属性
+ *  描述:实例6-原型链上部署Symbol.iterator
  *  通过遍历器实现指针结构
  */
 {
@@ -184,4 +184,91 @@
     }
 
     var one = new Obj(1)
+    var two = new Obj(2)
+    var three = new Obj(3)
+
+    one.next = two;
+    two.next = three;
+
+    for (var i of one) {
+        console.log('实例6-原型链上部署Symbol.iterator →', i)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 10:56
+ *  Email:csz.seven@gmail.com
+ *  描述:实例7-对象加Iterator接口
+ */
+{
+    let obj = {
+        data: ['实例7', '7例实'],
+        [Symbol.iterator]() {
+            const self = this;
+            let index = 0;
+            return {
+                next() {
+                    if (index < self.data.length) {
+                        return {
+                            value: self.data[index++],
+                            done: false
+                        };
+                    } else {
+                        return {value: undefined, done: true}
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 11:16
+ *  Email:csz.seven@gmail.com
+ *  描述:实例8-奇淫技巧 类似数组的对象，部署Iterator的方法
+ *  类似数组：存在数值键名和length属性
+ */
+{
+    //写法1
+    NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator]
+    //写法2
+    NodeList.prototype[Symbol.iterator] = [][Symbol.iterator]
+
+    // [...document.querySelectorAll('div')]
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 11:22
+ *  Email:csz.seven@gmail.com
+ *  描述:实例9-类似数组(存在数值键名和length属性),部署Iterator的方法
+ */
+{
+    let iterable = {
+        0: 'a',
+        1: 'b',
+        2: 'c',
+        length: 3,
+        [Symbol.iterator]: Array.prototype[Symbol.iterator]
+    }
+    for (let item of iterable) {
+        console.log('实例9-类似数组部署Iterator →', item)
+    }
+
+    let iterable2 = {
+        a: 'a',
+        b: 'b',
+        c: 'c',
+        length: 3,
+        [Symbol.iterator]: Array.prototype[Symbol.iterator]
+    }
+    for (let item of iterable2) {
+        console.log('实例9-普通对象部署Iterator 无效果→', item)
+    }
 }
