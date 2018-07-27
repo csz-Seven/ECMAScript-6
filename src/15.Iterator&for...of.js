@@ -272,3 +272,103 @@
         console.log('实例9-普通对象部署Iterator 无效果→', item)
     }
 }
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 13:24
+ *  Email:csz.seven@gmail.com
+ *  描述:实例10-调用Iterator接口的场合
+ */
+{
+    // 1.结构赋值
+    {
+        let set = new Set().add('a').add('b').add('c');
+        let [x, y] = set;
+        let [first, ...rest] = set
+    }
+    // 2.扩展运算符
+    {
+        var str = 'hello';
+        [...str]
+    }
+    // 3.yield*后面跟的是一个可遍历的结构，它会调用该结构的遍历器接口.
+    {
+        // let generator = function* () {
+        //     yield  1;
+        //     yield* [2, 3, 4];
+        //     yield 5;
+        // }
+        //
+        // var iterator = generator()
+        //
+        // iterator.next() // 1
+        // iterator.next() // 2
+        // iterator.next() // 3
+        // iterator.next() // 4
+        // iterator.next() // 5
+    }
+    // 4.其他场合
+    {
+        // for...of
+        // Array.from()
+        // Map()、Set()、WeakMap()、WeakSet()
+        // Promise.all()
+        // Promise.race()
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 14:19
+ *  Email:csz.seven@gmail.com
+ *  描述:实例11-字符串的Iterator接口
+ *  字符串是一个类似数组的对象，也原生具有 Iterator 接口。
+ */
+{
+    var someString = '实例11'
+    console.log('实例11→', typeof  someString[Symbol.iterator])
+    console.log('实例11→', [...someString])
+
+    var iterator = someString[Symbol.iterator]();
+    // console.log('实例11→',iterator)
+    console.log('实例11→iterator.next()', iterator.next())
+    console.log('实例11→iterator.next()', iterator.next())
+    console.log('实例11→iterator.next()', iterator.next())
+    console.log('实例11→iterator.next()', iterator.next())
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 14:36
+ *  Email:csz.seven@gmail.com
+ *  描述:实例12-覆盖原生的Symbol.iterator
+ */
+{
+    var str = new String('实例12')
+    console.log('实例12 原生 Symbol.iterator→',[...str])
+
+    str[Symbol.iterator] = function () {
+        return {
+            _first: true,
+            next: function () {
+                if (this._first) {
+                    this._first = false;
+                    return {
+                        value: '实例12',
+                        done: false
+                    }
+                } else {
+                    return {
+                        done:true
+                    }
+                }
+            }
+        }
+    }
+
+    console.log('实例12 覆盖 Symbol.iterator→',[...str])
+    console.log(str)
+}
