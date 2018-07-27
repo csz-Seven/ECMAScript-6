@@ -348,7 +348,7 @@
  */
 {
     var str = new String('实例12')
-    console.log('实例12 原生 Symbol.iterator→',[...str])
+    console.log('实例12 原生 Symbol.iterator→', [...str])
 
     str[Symbol.iterator] = function () {
         return {
@@ -362,13 +362,107 @@
                     }
                 } else {
                     return {
-                        done:true
+                        done: true
                     }
                 }
             }
         }
     }
 
-    console.log('实例12 覆盖 Symbol.iterator→',[...str])
+    console.log('实例12 覆盖 Symbol.iterator→', [...str])
     console.log(str)
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 16:14
+ *  Email:csz.seven@gmail.com
+ *  描述:实例13-遍历器对象的return()、throw()
+ */
+{
+    // return方法的使用场合是，如果for...of循环提前退出（通常是因为出错，或者有break语句），就会调用return方法。
+    // 如果一个对象在完成遍历前，需要清理或释放资源，就可以部署return方法。
+    function readLinesSync(file) {
+        return {
+            [Symbol.iterator] () {
+                return{
+                    next() {
+                        return {done:false}
+                    },
+                    return () {
+                        file.close();
+                        return {done:true}
+                    }
+                }
+            }
+        }
+    }
+
+    // 触发return()的情况
+    // return方法必须返回一个对象!!!
+    // 1.break;
+    // for (let line of readLinesSync(fileName)){
+    //     console.log(line);
+    //     // 此处会先执行 return()
+    //     break;
+    // }
+
+    // 2.抛出错误
+    // for (let line of readLinesSync(fileName)) {
+    //     console.log(line);
+    //     // 此处会先执行 return()
+    //     throw new Error();
+    // }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 16:55
+ *  Email:csz.seven@gmail.com
+ *  描述:for ... of
+ *  ES6 借鉴 C++、Java、C# 和 Python 语言，引入了for...of循环，作为遍历所有数据结构的统一的方法。
+ *  一个数据结构只要部署了Symbol.iterator属性，就被视为具有 iterator 接口，就可以用for...of循环遍历它的成员。
+*/
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 17:01
+ *  Email:csz.seven@gmail.com
+ *  描述:实例14-数组Iterator
+ *  使用：for...of循环可以代替数组实例的forEach方法
+*/
+{
+    const  arr = ['red','green','blue']
+    for(let i of arr){
+        console.log('实例14-1 →',i)
+    }
+
+    const obj = {};
+    obj[Symbol.iterator] = arr[Symbol.iterator].bind(arr)
+    for(let i of obj) {
+        console.log('实例14-2 →',i)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/27 17:14
+ *  Email:csz.seven@gmail.com
+ *  描述:实例15-for...in /  for ...of 区别
+*/
+{
+    let arr = [1,2,3]
+    arr.seven = 'for...in遍历的属性seven'
+
+    for(let i in arr){
+        console.log('实例15-for...in →',i,'←此处为 键')
+    }
+
+    for(let i of arr){
+        console.log('实例15-for...of →',i,'←此处为 值')
+    }
 }
