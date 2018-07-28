@@ -19,10 +19,10 @@
       <file leaf-file-name="15.Iterator&amp;for...of.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/15.Iterator&amp;for...of.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="987">
-              <caret line="542" column="1" lean-forward="true" selection-start-line="542" selection-start-column="1" selection-end-line="542" selection-end-column="1" />
+            <state relative-caret-position="973">
+              <caret line="576" column="7" selection-start-line="576" selection-start-column="7" selection-end-line="576" selection-end-column="7" />
               <folding>
-                <marker date="1532692604000" expanded="true" signature="10149:10210" ph="..." />
+                <marker date="1532746934000" expanded="true" signature="10149:10210" ph="..." />
               </folding>
             </state>
           </provider>
@@ -200,12 +200,12 @@
       <workItem from="1532400228072" duration="3252000" />
       <workItem from="1532584210186" duration="1298000" />
       <workItem from="1532590544536" duration="15129000" />
-      <workItem from="1532678648615" duration="6659000" />
+      <workItem from="1532678648615" duration="8365000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55750000" />
+    <option name="totallyTimeSpent" value="57456000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1207" y="39" width="1327" height="1359" extended-state="0" />
@@ -236,13 +236,18 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/15.Iterator&amp;for...of.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8304">
           <caret line="351" lean-forward="true" selection-start-line="351" selection-end-line="351" />
           <folding>
-            <marker date="1532692604000" expanded="true" signature="10149:10210" ph="..." />
+            <marker date="1532746934000" expanded="true" signature="10149:10210" ph="..." />
           </folding>
         </state>
       </provider>
@@ -425,10 +430,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/15.Iterator&amp;for...of.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="987">
-          <caret line="542" column="1" lean-forward="true" selection-start-line="542" selection-start-column="1" selection-end-line="542" selection-end-column="1" />
+        <state relative-caret-position="973">
+          <caret line="576" column="7" selection-start-line="576" selection-start-column="7" selection-end-line="576" selection-end-column="7" />
           <folding>
-            <marker date="1532692604000" expanded="true" signature="10149:10210" ph="..." />
+            <marker date="1532746934000" expanded="true" signature="10149:10210" ph="..." />
           </folding>
         </state>
       </provider>

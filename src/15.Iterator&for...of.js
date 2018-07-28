@@ -541,3 +541,41 @@
     }
     // 2018-07-27 19:56:39
 }
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/7/28 10:50
+ *  Email:csz.seven@gmail.com
+ *  描述:实例19-遍历语法之间的比较
+ */
+{
+    let myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+    // for
+    {
+        for (var index = 0; index < myArray.length; index++) {
+            console.log('实例19-for →', myArray[index])
+        }
+    }
+
+    // forEach 遍历值
+    {
+        // forEach无法中途跳出，break return命令都不能奏效
+        myArray.forEach(function (value) {
+            console.log('实例19-forEach →', value)
+        })
+    }
+
+    // for...in 遍历键名(包括原型链上的键)
+    {
+        for (var index in myArray) {
+            console.log('实例19-for...in →', myArray[index])
+        }
+    }
+
+    //for...of
+    // 有着同for...in一样的简洁语法，但是没有for...in那些缺点。
+    // 不同于forEach方法，它可以与break、continue和return配合使用。
+    // 提供了遍历所有数据结构的统一操作接口。
+}
+// 2018-07-28 11:04:06
