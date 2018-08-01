@@ -1,14 +1,14 @@
 import _ from 'lodash';
+import printMe from './print.js'
 
 function component() {
     var element = document.createElement('div');
+    var btn = document.createElement('button');
 
-    // Lodash, currently included via a script, is required for this line to work
-    // Lodash, now imported by this script
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-    // 使用css-lodash
 
-    // 使用file-lodash
+    btn.innerHTML = 'BUTTON'
+    btn.onclick = printMe;
     return element;
 }
 
