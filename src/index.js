@@ -1,6 +1,4 @@
 import _ from 'lodash';
-import './style/style.css'
-import icon from './webpack.png'
 
 function component() {
     var element = document.createElement('div');
@@ -11,10 +9,6 @@ function component() {
     // 使用css-lodash
 
     // 使用file-lodash
-    var myIcon = new Image();
-    myIcon.src = icon;
-    element.appendChild(myIcon)
-    element.classList.add('hello')
     return element;
 }
 
