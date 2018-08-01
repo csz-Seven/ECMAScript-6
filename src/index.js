@@ -3,14 +3,23 @@ import printMe from './print.js'
 
 function component() {
     var element = document.createElement('div');
+    var btn = document.createElement('button');
 
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
+    btn.innerHTML = 'BUTTON';
+    btn.onclick = printMe;
 
-    console.log('webpack watch')
-    console.log('webpack dev server')
+    element.appendChild(btn);
 
     return element;
 }
 
 document.body.appendChild(component());
+
+if (module.hot) {
+    module.hot.accept('./print.js', function () {
+        console.log('Accepting the updated printMe module!');
+        printMe();
+    })
+}
