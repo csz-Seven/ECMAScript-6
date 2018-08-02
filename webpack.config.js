@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     // entry: "./src/index.js",
     entry: {
-        app: './src/index.js',
+        app: './src/16.Generator.js',
     },
     // source-map
     devtool: "inline-source-map",
@@ -16,6 +16,11 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test:/\.js$/,
+                exclude: /node_modules/,
+                use:['babel-loader']
+            },
             {
                 test:/\.css$/,
                 use:['style-loader','css-loader']
@@ -47,5 +52,6 @@ module.exports = {
  *      4.管理资源
  *      5.管理输出 2018-08-01 14:31:09 - 完成
  *      6.开发 2018-08-01 15:19:21 - 完成
- *      7.模块热替换 2018年08月01日17:23:21 - 完成
+ *      7.模块热替换 2018-08-01 17:23:21 - 完成
+ *      8.tree shaking 2018-08-02 13:48:23 -
  */
