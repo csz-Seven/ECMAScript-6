@@ -14,6 +14,14 @@ module.exports = {
         contentBase: './dist',
         hot: true
     },
+    module: {
+        rules: [
+            {
+                test:/\.css$/,
+                use:['style-loader','css-loader']
+            }
+        ]
+    },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
@@ -39,5 +47,5 @@ module.exports = {
  *      4.管理资源
  *      5.管理输出 2018-08-01 14:31:09 - 完成
  *      6.开发 2018-08-01 15:19:21 - 完成
- *      7.模块热替换 2018年08月01日17:23:21
+ *      7.模块热替换 2018年08月01日17:23:21 - 完成
  */
