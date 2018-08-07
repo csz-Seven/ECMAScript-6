@@ -24,10 +24,10 @@
         console.log('实例1-代码片段1')
         yield '实例1-1';
 
-        console.log('实例1-代码片段1')
+        console.log('实例1-代码片段2')
         yield '实例1-2';
 
-        console.log('实例1-代码片段1')
+        console.log('实例1-代码片段3')
         return '实例1-3';
     }
 
@@ -121,7 +121,7 @@
 
         var g = gen()
 
-        console.log('实例5 g === g[Symbol.iterator]',g === g[Symbol.iterator]());
+        console.log('实例5 g === g[Symbol.iterator]', g === g[Symbol.iterator]());
     }
 }
 
@@ -130,5 +130,100 @@
  *  作者:Seven
  *  时间:2018/8/2 15:27
  *  Email:csz.seven@gmail.com
- *  描述:next 方法的参数
+ *  描述:实例6-next 方法的参数
+ */
+{
+    // yield表达式总返回undefined，next方法可以带一个参数，该参数就会被当做上一个yield表达式的返回值.
+    function* f() {
+        for (let i = 0; true; i++) {
+            let reset = yield  i;
+            if (reset) {
+                i = -1
+            }
+        }
+    }
+
+    let g = f();
+
+    console.log('实例6-next', g.next()) // 0
+    console.log('实例6-next', g.next()) // 1
+    console.log('实例6-next', g.next(true)) // 0
+    // 通过next方法的参数，就有办法在 Generator 函数开始运行之后，继续向函数体内部注入值。
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/7 14:36
+ *  Email:csz.seven@gmail.com
+ *  描述:实例7-next 方法的参数
+ */
+{
+    function* f1(x) {
+        let y = 2 * (yield (x + 1));
+        let z = yield (y / 3)
+        return (x + y + z);
+    }
+
+    let a = f1(5)
+    console.log('实例7-1', a.next()); // 6 done:false
+    console.log('实例7-1', a.next()); // NaN done:false ->此时的y为undefined
+    console.log('实例7-1', a.next()); // NaN done:true ->此时的y z 都为undefined
+
+    let b = f1(5)
+    console.log('实例7-2', b.next()); // 6 done:false
+    console.log('实例7-2', b.next(12)); // 8 done:false -> 此时的y=2*12=24
+    console.log('实例7-2', b.next(13)); // 42 done:true ->此时的z=13 y=24 x=5
+
+    //ps:首次调用next 传值是无效的
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/7 14:52
+ *  Email:csz.seven@gmail.com
+ *  描述:实例8-next 方法的参数
+ */
+{
+    //Generator 函数内部传值
+    function* f2() {
+        console.log('实例8 Started');
+        console.log(`实例8 1. ${yield}`);
+        console.log(`实例8 2. ${yield}`);
+        return 'result';
+    }
+
+    let genObj = f2();
+
+    genObj.next() // Started
+    genObj.next('a')
+    console.log('实例8 ',genObj.next('b'))
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/7 15:02
+ *  Email:csz.seven@gmail.com
+ *  描述:实例9-next 方法的参数
+ *  实现第一次next调用，传递参数，可以再Generator在包裹一层
 */
+{
+    function wrapper(generatorFunction) {
+        return function (...args) {
+            let generatorObject = generatorFunction(...args);
+            generatorObject.next();
+            return generatorObject;
+        }
+    }
+
+    const wrapped = wrapper(function* () {
+        console.log(`Frist input: ${yield }`);
+        return 'DONE'
+    })
+
+    console.log(wrapped().next(`实例9实现首次next传值`))
+
+    // 书签🔖 ->如果想要第一次调用next方法时，就能够输入值，可以在 Generator 函数外面再包一层。
+}
