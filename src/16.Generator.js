@@ -264,12 +264,12 @@
  *  描述:实例11-Generator.prototype.throw()
  *  内部未部署try...catch时，外部catch代码块捕获.
  *  内\外部都为部署try...catch时，程序则报错，中断执行.
-*/
+ */
 {
     let g = function* () {
         while (true) {
-            yield ;
-            console.log(`内部捕获`,e)
+            yield;
+            console.log(`内部捕获`, e)
         }
     }
 
@@ -280,7 +280,7 @@
         i.throw('a')
         i.throw('b')
     } catch (e) {
-        console.log('实例11 外部捕获',e)
+        console.log('实例11 外部捕获', e)
     }
 }
 
@@ -291,19 +291,19 @@
  *  Email:csz.seven@gmail.com
  *  描述:实例12-throw方法被捕获以后，会附带执行下一条yield(执行一次next方法)
  *  throw  g.throw互不影响
-*/
+ */
 {
     let gen = function* () {
         try {
             console.log(yield console.log('实例12-a next'));
-        }catch (e) {
+        } catch (e) {
 
         }
         yield console.log('实例12-b throw')
         yield console.log('实例12-c')
     }
 
-    let g =gen()
+    let g = gen()
     g.next()
     g.throw()
     g.next()
@@ -316,7 +316,7 @@
  *  Email:csz.seven@gmail.com
  *  描述:实例13-throw方法
  *  Generator 执行过程中抛出 错误，且没有被内部捕获，就不会再执行下去
-*/
+ */
 {
     function* g() {
         yield 1;
@@ -332,23 +332,23 @@
 
         try {
             v = generator.next()
-            console.log(`实例13-第一次执行next`,v)
+            console.log(`实例13-第一次执行next`, v)
         } catch (e) {
-            console.log(`实例13-1 捕获错误 `,v)
+            console.log(`实例13-1 捕获错误 `, v)
         }
 
         try {
             v = generator.next()
-            console.log(`实例13-第二次执行next `,v)
+            console.log(`实例13-第二次执行next `, v)
         } catch (e) {
-            console.log(`实例13-2 捕获错误 `,v)
+            console.log(`实例13-2 捕获错误 `, v)
         }
 
         try {
             v = generator.next()
-            console.log(`实例13-第三次执行next `,v)
+            console.log(`实例13-第三次执行next `, v)
         } catch (e) {
-            console.log(`实例13-3 捕获错误 `,v)
+            console.log(`实例13-3 捕获错误 `, v)
         }
 
         console.log('实例13-done')
@@ -356,3 +356,86 @@
 
     log(g())
 }
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/8 16:16
+ *  Email:csz.seven@gmail.com
+ *  描述:实例14-Generator.prototype.return(),可以返回给定的参数，并且终止遍历。
+ *      如果return()不带参数，则返回undefined
+ */
+{
+    function* gen() {
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+
+    let g = gen();
+
+    console.log(`实例14-return()`, g.next())
+    console.log(`实例14-return()`, g.return('return()方法'))
+    console.log(`实例14-return()`, g.next())
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/8 16:22
+ *  Email:csz.seven@gmail.com
+ *  描述:实例15-Generator函数内部有 try...finally代码块，return则会推迟到finally代码执行后.
+ */
+{
+    function* gen() {
+        yield 1;
+        try {
+            yield 2;
+            yield 3;
+        } finally {
+            yield 4;
+            yield 5;
+        }
+        yield 6
+    }
+
+    let g = gen();
+
+    console.log(`实例15 try...finally & return `, g.next()) //1
+    console.log(`实例15 try...finally & return `, g.next()) //2
+    console.log(`实例15 try...finally & return `, g.return(7))  //4
+    console.log(`实例15 try...finally & return `, g.next()) //5
+    console.log(`实例15 try...finally & return `, g.next()) //7
+    console.log(`实例15 try...finally & return `, g.next()) //undefined
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/8 16:40
+ *  Email:csz.seven@gmail.com
+ *  描述:实例16-next() 、 throw() 、 return()共同点
+ *  作用都是让 Generator 函数恢复执行，并且使用不同的语句替换yield表达式。
+ *  next()是将yield表达式替换成一个值。
+ */
+{
+    let g = function* (x, y) {
+        let result = yield x + y;
+        return result
+    }
+
+    const gen = g(1, 2);
+    console.log('实例16-next', gen.next())
+    console.log('实例16-next', gen.next(1))
+    // let result = yield x + y;
+    // 替换成
+    // let result = 1;
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/8 16:54
+ *  Email:csz.seven@gmail.com
+ *  描述:实例17-yield* 表达式
+*/
