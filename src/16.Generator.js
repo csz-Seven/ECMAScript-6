@@ -198,7 +198,7 @@
 
     genObj.next() // Started
     genObj.next('a')
-    console.log('实例8 ',genObj.next('b'))
+    console.log('实例8 ', genObj.next('b'))
 }
 
 
@@ -208,8 +208,9 @@
  *  Email:csz.seven@gmail.com
  *  描述:实例9-next 方法的参数
  *  实现第一次next调用，传递参数，可以再Generator在包裹一层
-*/
+ */
 {
+    // 实现原理 内部先调用一次next()
     function wrapper(generatorFunction) {
         return function (...args) {
             let generatorObject = generatorFunction(...args);
@@ -226,4 +227,132 @@
     console.log(wrapped().next(`实例9实现首次next传值`))
 
     // 书签🔖 ->如果想要第一次调用next方法时，就能够输入值，可以在 Generator 函数外面再包一层。
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/8 10:38
+ *  Email:csz.seven@gmail.com
+ *  描述:实例10-Generator.prototype.throw()
+ */
+{
+    let g = function* () {
+        try {
+            yield;
+        } catch (e) {
+            console.log(`实例10-内部throw ${e}`)
+        }
+    }
+
+    let i = g();
+    i.next()
+
+    try {
+        i.throw(`a`);
+        i.throw(`b`)
+    } catch (e) {
+        console.log(`实例10-外部throw ${e}`)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/8 11:28
+ *  Email:csz.seven@gmail.com
+ *  描述:实例11-Generator.prototype.throw()
+ *  内部未部署try...catch时，外部catch代码块捕获.
+ *  内\外部都为部署try...catch时，程序则报错，中断执行.
+*/
+{
+    let g = function* () {
+        while (true) {
+            yield ;
+            console.log(`内部捕获`,e)
+        }
+    }
+
+    let i = g();
+    i.next()
+
+    try {
+        i.throw('a')
+        i.throw('b')
+    } catch (e) {
+        console.log('实例11 外部捕获',e)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/8 15:22
+ *  Email:csz.seven@gmail.com
+ *  描述:实例12-throw方法被捕获以后，会附带执行下一条yield(执行一次next方法)
+ *  throw  g.throw互不影响
+*/
+{
+    let gen = function* () {
+        try {
+            console.log(yield console.log('实例12-a next'));
+        }catch (e) {
+
+        }
+        yield console.log('实例12-b throw')
+        yield console.log('实例12-c')
+    }
+
+    let g =gen()
+    g.next()
+    g.throw()
+    g.next()
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/8 15:48
+ *  Email:csz.seven@gmail.com
+ *  描述:实例13-throw方法
+ *  Generator 执行过程中抛出 错误，且没有被内部捕获，就不会再执行下去
+*/
+{
+    function* g() {
+        yield 1;
+        console.log('throwing an exception');
+        throw new Error('generator broke!');
+        yield 2;
+        yield 3;
+    }
+
+    function log(generator) {
+        let v;
+        console.log('实例13-starting generator');
+
+        try {
+            v = generator.next()
+            console.log(`实例13-第一次执行next`,v)
+        } catch (e) {
+            console.log(`实例13-1 捕获错误 `,v)
+        }
+
+        try {
+            v = generator.next()
+            console.log(`实例13-第二次执行next `,v)
+        } catch (e) {
+            console.log(`实例13-2 捕获错误 `,v)
+        }
+
+        try {
+            v = generator.next()
+            console.log(`实例13-第三次执行next `,v)
+        } catch (e) {
+            console.log(`实例13-3 捕获错误 `,v)
+        }
+
+        console.log('实例13-done')
+    }
+
+    log(g())
 }
