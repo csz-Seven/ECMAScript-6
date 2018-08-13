@@ -438,4 +438,79 @@
  *  时间:2018/8/8 16:54
  *  Email:csz.seven@gmail.com
  *  描述:实例17-yield* 表达式
-*/
+ */
+{
+    // 未使用yield*
+    function* inner() {
+        yield '实例17-1'
+    }
+
+    function* outer1() {
+        yield '实例17-2';
+        yield inner();
+        yield '实例17-3';
+    }
+
+    let gen1 = outer1();
+    console.log(gen1.next().value)//实例17-2
+    console.log(gen1.next().value)// inner遍历器
+    console.log(gen1.next().value)// 实例17-3
+
+    // 使用yield
+    function* outer2() {
+        yield '实例17-4'
+        yield* inner();
+        yield '实例17-5'
+    }
+
+    let gen2 = outer2()
+    console.log(gen2.next().value)// 17-4
+    console.log(gen2.next().value)// 17-1
+    console.log(gen2.next().value)// 17-4
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/10 14:38
+ *  Email:csz.seven@gmail.com
+ *  描述:实例18-何数据结构只要有 Iterator 接口，就可以被yield*遍历。
+ */
+{
+    function* gen() {
+        yield* ['a', 'b', 'c']
+        yield* 'hello'
+    }
+
+    console.log(`实例18`, gen().next())
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/10 14:47
+ *  Email:csz.seven@gmail.com
+ *  描述:实例19-Generator 可以向代理它的函数返回数据
+ */
+{
+    function* foo() {
+        yield 2;
+        yield 3;
+        return 'foo';
+    }
+
+    function* bar() {
+        yield 1;
+        let v = yield* foo();
+        console.log('实例19 v:' + v)
+        yield 4;
+    }
+
+    let it = bar();
+
+    console.log('实例19 ', it.next()) // 1
+    console.log('实例19 ', it.next()) // 2
+    console.log('实例19 ', it.next()) // 3
+    console.log('实例19 ', it.next()) // v:foo 4
+    console.log('实例19 ', it.next()) // undefined
+}
