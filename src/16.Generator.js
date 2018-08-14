@@ -490,7 +490,7 @@
  *  作者:Seven
  *  时间:2018/8/10 14:47
  *  Email:csz.seven@gmail.com
- *  描述:实例19-Generator 可以向代理它的函数返回数据
+ *  描述:实例19-Generator 向代理它的函数返回数据
  */
 {
     function* foo() {
@@ -513,4 +513,241 @@
     console.log('实例19 ', it.next()) // 3
     console.log('实例19 ', it.next()) // v:foo 4
     console.log('实例19 ', it.next()) // undefined
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/13 14:21
+ *  Email:csz.seven@gmail.com
+ *  描述:实例20-Generator 向代理它的函数返回数据
+ */
+{
+    function* genFuncWithReturn() {
+        yield 'a';
+        yield 'b';
+        return 'The result';
+    }
+
+    function* logReturned(genObj) {
+        let result = yield* genObj;
+        console.log(`实例20 ${result}`)
+    }
+
+    console.log('实例20 ', [...logReturned(genFuncWithReturn())])
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/13 14:46
+ *  Email:csz.seven@gmail.com
+ *  描述:实例21-Generator yield* 取出嵌套数组的所有成员
+ */
+{
+    function* iterTree(tree) {
+        if (Array.isArray(tree)) {
+            for (let i = 0; i < tree.length; i++) {
+                yield* iterTree(tree[i]);
+            }
+        } else {
+            yield tree;
+        }
+    }
+
+    const tree = ['a', ['b', 'c'], ['d', 'e']];
+
+    for (let x of iterTree(tree)) {
+        console.log('实例21 ', x)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/13 15:20
+ *  Email:csz.seven@gmail.com
+ *  描述:实例22-yield* 遍历二叉树
+ *  -标记-
+ */
+{
+    //左树 当前节点 右树
+    function Tree(left, label, right) {
+        this.left = left;
+        this.label = label;
+        this.right = right;
+    }
+
+    // 左树 右树 使用yield*遍历
+    function* inorder(t) {
+        if (t) {
+            yield* inorder(t.left)
+            yield t.label;
+            yield* inorder(t.right)
+        }
+    }
+
+    // 生成二叉树
+    function make(array) {
+        if (array.length == 1) return new Tree(null, array[0], null)
+        return new Tree(make(array[0]), array[1], make(array[2]));
+    }
+
+    let tree = make([
+        [['a'], 'b', ['c']],
+        'd',
+        [['e'], 'f', ['g']]
+    ])
+
+    // 开发遍历二叉树
+    let result = [];
+    for (let node of inorder(tree)) {
+        result.push(node)
+    }
+
+    console.log(`实例22 ${result}`)
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/14 13:51
+ *  Email:csz.seven@gmail.com
+ *  描述:实例23-Generator函数 作为对象属性
+ */
+{
+    let obj = {
+        * myGeneratorMethod() {
+        }
+    }
+
+    // 等价于
+
+    let obj2 = {
+        myGeneratorMethod: function* () {
+        }
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/14 13:53
+ *  Email:csz.seven@gmail.com
+ *  描述:实例24-Generator函数的this指向
+ */
+{
+    // Generator 函数返回遍历器，ES6规定这个遍历器是Generator 函数的实例，也继承Generator函数的prototype 对象上的方法。
+    {
+        function* g() {
+        }
+
+        g.prototype.hello = function () {
+            return '实例24'
+        }
+
+        let obj = g();
+
+        console.log('实例24 obj installed g', obj instanceof g)
+        console.log(obj.hello())
+    }
+
+    // g当做普通的构造函数时,返回的是遍历器,返回的是遍历器对象，而不是this对象
+    {
+        function* g() {
+            this.a = 24;
+        }
+
+        let obj = g();
+        // console.log(obj.next())
+        // console.log(obj.a)
+    }
+
+    // Generator 函数不能和 new 命令一起用
+    {
+        // function* F() {
+        //     yield this.x=2;
+        //     yield this.y=3;
+        // }
+        //
+        // console.log(new F())
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/14 14:14
+ *  Email:csz.seven@gmail.com
+ *  描述: 实例25-实现内部this的 Generator函数(变通方法)
+ *  方法1-使用call指向
+ */
+{
+    function* F() {
+        this.a = 1;
+        yield this.b = 2;
+        yield this.c = 3;
+    }
+
+
+    let obj = {}
+    let f = F.call(obj)
+
+    console.log('实例25 f', f.next())
+    console.log('实例25 f', f.next())
+    console.log('实例25 f', f.next())
+
+    console.log('实例25 call->obj ', obj.a)
+    console.log('实例25 call->obj ', obj.b)
+    console.log('实例25 call->obj ', obj.c)
+
+    // 使用call指向 Generator函数内部的this为obj，执行完所有yield后，内部属性都绑定在obj对象上,因此obj对象也就成了F实例.
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/14 14:24
+ *  Email:csz.seven@gmail.com
+ *  描述:实例26-实现内部this的 Generator函数(变通方法)
+ *  方法2-绑定在F.prototype
+ */
+{
+    function* F() {
+        this.a = 1;
+        yield this.b = 2;
+        yield this.c = 3;
+    }
+
+    let f = F.call(F.prototype);
+
+    console.log('实例26 f', f.next())
+    console.log('实例26 f', f.next())
+    console.log('实例26 f', f.next())
+
+    console.log('实例26 call->F.prototype ', f.a)
+    console.log('实例26 call->F.prototype ', f.b)
+    console.log('实例26 call->F.prototype ', f.c)
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/14 14:33
+ *  Email:csz.seven@gmail.com
+ *  描述:实例27-Generator 实现new命令
+ */
+{
+    function* gen() {
+        this.a = 1;
+        yield this.b = 2;
+        yield this.c = 3;
+    }
+
+    function F() {
+        gen.call(gen.prototype)
+    }
+
+    let f = new F();
+
 }
