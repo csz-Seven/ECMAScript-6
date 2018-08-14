@@ -815,9 +815,10 @@
             console.log(resp.value)
         }
 
-        function makeAjaxCall(url,fn) {
+        function makeAjaxCall(url, fn) {
 
         }
+
         function request(url) {
             makeAjaxCall(url, function (response) {
                 it.next(response)
@@ -833,7 +834,7 @@
      *  时间:2018/8/14 16:31
      *  Email:csz.seven@gmail.com
      *  描述:场景2 控制流管理
-    */
+     */
     {
         {
             // step1(function (value1) {
@@ -885,6 +886,46 @@
             //         task.value = taskObj.value
             //         scheduler(task);
             //     }
+            // }
+
+            // for...of本质是while循环
+            // {
+            //     let it = iteratorJobs(jobs);
+            //     let res = it.next();
+            //
+            //     while (!res.done) {
+            //         let result = res.value;
+            //         // ...
+            //         res = it.next();
+            //     }
+            // }
+        }
+
+
+        // 部署Iterator接口
+        {
+            function* iterEntries(obj) {
+                let keys = Object.keys(obj);
+                for (let i = 0; i < keys.length; i++) {
+                    let key = keys[i]
+                    yield [key, obj[key]];
+                }
+            }
+
+            let myObj={foo:3,bar:7};
+
+            for (let [key,value] of iterEntries(myObj)) {
+                console.log('Generator 应用场景-部署Iterator接口 ',key,value)
+            }
+        }
+
+        //数据结构
+        {
+            //Generator 可以看作是数据结构，更确切地说，可以看作是一个数组结构，因为 Generator 函数可以返回一系列的值，这意味着它可以对任意表达式，提供类似数组的接口。
+            // function* doStuff() {
+            //     yield fs.readFile.bind(null, 'hello.txt');
+            //     yield fs.readFile.bind(null, 'world.txt');
+            //     yield fs.readFile.bind(null, 'and-such.txt');
             // }
         }
     }
