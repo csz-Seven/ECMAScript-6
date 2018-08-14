@@ -749,5 +749,146 @@
     }
 
     let f = new F();
-
 }
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/14 14:40
+ *  Email:csz.seven@gmail.com
+ *  描述:实例28-Generator 是实现状态机的最佳结构
+ */
+{
+    {
+        let ticking = true;
+        let clock = function () {
+            if (ticking)
+                console.log('实例28状态机 Tick')
+            else
+                console.log('实例28状态机 Tock')
+
+            ticking = !ticking;
+        }
+    }
+
+    // 等价于 Generator
+    {
+        let clock = function* () {
+            while (true) {
+                console.log('实例28Generator实现状态机 Tick');
+                yield;
+                console.log('实例28Generator实现状态机 Tock')
+                yield;
+            }
+        }
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/14 14:52
+ *  Email:csz.seven@gmail.com
+ *  描述:Generator 协程
+ *  -标记-
+ */
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/14 15:52
+ *  Email:csz.seven@gmail.com
+ *  描述:实例29-Generator 应用场景
+ */
+{
+    /**
+     *  作者:Seven
+     *  时间:2018/8/14 15:54
+     *  Email:csz.seven@gmail.com
+     *  描述:场景1 同步处理，异步操作
+     */
+    {
+        //    AJAX
+        function* main() {
+            let reuslt = yield request("url")
+            let resp = JSON.parse(reuslt)
+            console.log(resp.value)
+        }
+
+        function makeAjaxCall(url,fn) {
+
+        }
+        function request(url) {
+            makeAjaxCall(url, function (response) {
+                it.next(response)
+            })
+        }
+
+        var it = main();
+        it.next();
+    }
+
+    /**
+     *  作者:Seven
+     *  时间:2018/8/14 16:31
+     *  Email:csz.seven@gmail.com
+     *  描述:场景2 控制流管理
+    */
+    {
+        {
+            // step1(function (value1) {
+            //     step2(value1, function(value2) {
+            //         step3(value2, function(value3) {
+            //             step4(value3, function(value4) {
+            //                 // Do something with value4
+            //             });
+            //         });
+            //     });
+            // });
+        }
+
+        // Promise实现
+        {
+            // Promise.resolve(step1)
+            //     .then(step2)
+            //     .then(step3)
+            //     .then(step4)
+            //     .then(function (value4) {
+            //         // Do something with value4
+            //     }, function (error) {
+            //         // Handle any error from step1 through step4
+            //     })
+            //     .done();
+        }
+
+        // Generator 实现
+        {
+            // 只适用于 同步
+            // function* longRunningTask(value1) {
+            //     try {
+            //         var value2 = yield step1(value1);
+            //         var value3 = yield step2(value2);
+            //         var value4 = yield step3(value3);
+            //         var value5 = yield step4(value4);
+            //         // Do something with value4
+            //     } catch (e) {
+            //         // Handle any error from step1 through step4
+            //     }
+            // }
+
+            // scheduler(longRunningTask(initialValue));
+            //
+            // function scheduler(task) {
+            //     var taskObj = task.next(task.value);
+            //     // 如果Generator函数未结束，就继续调用
+            //     if (!taskObj.done) {
+            //         task.value = taskObj.value
+            //         scheduler(task);
+            //     }
+            // }
+        }
+    }
+}
+
+
+// 标记：下面，利用for...of循环会自动依次执行yield命令的特性，提供一种更一般的控制流管理的方法。
