@@ -235,3 +235,134 @@
         // const foo;
     }
 }
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/15 14:48
+ *  Email:csz.seven@gmail.com
+ *  描述:实例8-const本质
+ *  const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。
+ *  1.简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。
+ *  2.复合类型的数据，变量指向的内存地址，保存的只是一个指向实际数据的指针，const是指针固定不变，至于数据结构是否变化是无法控制的.
+ */
+{
+    {
+        const foo = {}
+        foo.prop = '实例8-const本质'
+        console.log(foo.prop)
+
+        //报错
+        // foo={}
+    }
+
+    {
+        const a = [];
+        a.push('实例8')
+        a.length = 0;
+        // 报错
+        // a = ['Dave']
+    }
+
+
+    // 如果需要保证const的复合类型不被改变 使用Object.freeze冻结对象
+    {
+        const foo = Object.freeze({});
+        // 报错
+        // foo.prop='freeze'
+    }
+    // 完整冻结一个对象
+    {
+        // 回调冻结
+        let constantize = (obj) => {
+            Object.freeze(obj)
+            Object.keys(obj).forEach((key, i) => {
+                if (typeof obj[key] === 'object') {
+                    constantize(obj[key])
+                }
+            })
+        }
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/15 16:15
+ *  Email:csz.seven@gmail.com
+ *  描述:ES6中的 6种声明变量方法
+ *  1.var
+ *  2.function
+ *  3.let
+ *  4.const
+ *  5.import
+ *  6.class
+ */
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/15 16:32
+ *  Email:csz.seven@gmail.com
+ *  描述:实例9-顶层对象的属性
+ */
+{
+    //顶层对象
+    // 1.游览器环境 window
+    // 2.Node global
+    // ES5中全局变量等价于顶层对象
+    window.seven = 7;
+    console.log('实例9 全局变量seven ', seven)
+    console.log(`实例9 顶层对象window.seven `, seven)
+
+    // ES6中的改变
+    // var function声明的全局变量 依然保留在顶层对象的属性
+    // let const class声明的全局变量 已脱离顶层对象的属性
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/15 17:49
+ *  Email:csz.seven@gmail.com
+ *  描述:实例10-global对象
+ */
+{
+    //ES5中顶层对象的不统一
+    //1.游览器顶层对象 window，Node 和 Web Worker没有window
+    //2.游览器和Web Worker里面，self指向顶层对象，Node没有self
+    //3.Node的顶层对象为global，其他环境没有
+
+    //目前解决各种环境都能取到顶层对象，使用this
+    //this指向问题
+    //1.全局环境this返回顶层对象。Node模块和ES6模块，this返回当前模块
+    //2.函数不作为对象运行时，this指向顶层对象.ps严格模式下，this返回undefined
+    //3.不管严格模式，还是普通模式,new Function('return this')(),总是返回全局对象。
+    //如果浏览器用了 CSP（Content Security Policy，内容安全策略），那么eval、new Function这些方法都可能无法使用。
+
+    //解决顶层对象方案
+    //1.引入global对象---system.global.
+    //2.方案二
+    {
+        (typeof window !== "undefined"
+            ? window
+            : (typeof process === 'object' &&
+                typeof require === "function" &&
+                typeof global === 'object')
+                ? global
+                : this);
+
+        let getGlobal = function () {
+            if (typeof self !== 'undefined') {
+                return self
+            }
+            if (typeof window !== "undefined") {
+                return window
+            }
+            if (typeof global !== "undefined") {
+                return global
+            }
+            throw new Error('???')
+        }
+    }
+}
