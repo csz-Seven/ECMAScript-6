@@ -186,9 +186,234 @@ console.log('★★★  变量的结构赋值  ★★★')
             let {foo} = {bar: 'baz'};
             foo // undefined
         } catch (e) {
+
+            //foo为undefined 则再取子属性就会报错
             console.warn(`结构模式为 嵌套对象，且子对象所在所在的父属性不存在-报错
             let {foo} = {bar: 'baz'};
             foo // undefined`)
         }
+    }
+
+    //已声明的变量用于结构赋值，出现报错，{x}解析为代码块，发生语法错误，只有不将大括号写在首行，才能解决该问题
+    {
+        let x;
+        //    {x} = {x:1}
+        ({x} = {x: 1})
+        console.log(`实例3-使用已声明的变量 结构赋值x ${x}`)
+    }
+
+    // 数组本质是特殊的对象
+    {
+        let arr = [1, 2, 3];
+        let {0: first, [arr.length - 1]: last} = arr
+        console.log(`实例3-数组本质是特殊的对象first ${first} last ${last}`)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/21 11:09
+ *  Email:csz.seven@gmail.com
+ *  描述:实例4-字符串的结构赋值
+ */
+{
+    // 字符串结构
+    {
+        const [a, b, c, d, e, f, g] = '字符串结构赋值'
+        console.log(`实例4-`, a, b, c, d, e, f, g)
+    }
+
+    // 类似数组的对象具有length属性，可以对这属性进行数组结构
+    {
+        let {length: len} = '字符串结构'
+        console.log(`实例4-length属性结构`, length)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/21 11:14
+ *  Email:csz.seven@gmail.com
+ *  描述:实例5-数值和布尔值的结构赋值
+ */
+{
+    // 数值和布尔值 会先转换为对象
+    {
+        let {toString: a} = 123;
+        console.log(`实例5-数值 先转换为对象`, a === Number.prototype.toString)
+
+        let {toString: b} = true;
+        console.log(`实例5-布尔值 先转换为对象`, b === Boolean.prototype.toString)
+    }
+
+    // 等号右边不是数组和对象 ，就先将其转换为对象.
+    // undefined 和 null 无法转为对象
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/21 11:24
+ *  Email:csz.seven@gmail.com
+ *  描述:实例6-函数参数的结构赋值
+ */
+{
+    {
+        function add([x, y]) {
+            return x + y;
+        }
+
+        add([1, 2])
+    }
+
+    // 函数参数结构使用默认值-1
+    {
+        // x y 的参数的默认值
+        function move1({x = 0, y = 0} = {}) {
+            return [x, y]
+        }
+
+        console.log(`实例6-函数参数结构默认值-1 `, move1({x: 3, y: 8})) // [3,8]
+        console.log(`实例6-函数参数结构默认值-1 `, move1({x: 3}))// [3,0]
+        console.log(`实例6-函数参数结构默认值-1 `, move1({})) // [0,0]
+        console.log(`实例6-函数参数结构默认值-1 `, move1()) // [0,0]
+    }
+    // 函数参数结构使用默认值-2
+    {
+        //move 传值参数的默认值
+        function move2({x, y} = {x: 0, y: 0}) {
+            return [x, y];
+        }
+
+        console.log(`实例6-函数参数结构默认值-2 `, move2({x: 3, y: 8})) // [3,8]
+        console.log(`实例6-函数参数结构默认值-2 `, move2({x: 3})) // [3,undefined]
+        console.log(`实例6-函数参数结构默认值-2 `, move2({})) // [undefined,undefined]
+        console.log(`实例6-函数参数结构默认值-2 `, move2()) // [0,0]
+    }
+    //undefined就会触发函数参数的默认值
+    {
+        [1, undefined, 3].map((x = 'undefined的默认值') => console.log(`实例6-undefined触发函数默认值`, x));
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/21 14:20
+ *  Email:csz.seven@gmail.com
+ *  描述:实例7-圆括号问题
+ */
+{
+    //不能使用圆括号的情况
+    {
+        //1.变量声明语句
+        //let [(a)] = [1];
+        //
+        // let {x: (c)} = {};
+        // let ({x: c}) = {};
+        // let {(x: c)} = {};
+        // let {(x): c} = {};
+        //
+        // let { o: ({ p: p }) } = { o: { p: 2 } };
+
+        //2.函数参数
+        // 报错
+        // function f([(z)]) { return z; }
+        // 报错
+        // function f([z,(x)]) { return x; }
+
+        //3.赋值语句模式
+        // ({ p: a }) = { p: 42 };
+        // ([a]) = [5];
+    }
+
+    // 使用圆括号的情况
+    {
+        // [(b)]=[3]
+        // ({p:(d)}={})
+        // [(parseInt.prop)] = [3]
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/21 14:54
+ *  Email:csz.seven@gmail.com
+ *  描述:实例8-结构赋值使用场景
+ */
+{
+    // 交换变量的值
+    {
+        let x = 1;
+        let y = 2;
+        [x, y] = [y, x]
+    }
+
+    // 函数返回多个值时
+    {
+        let fn1 = function () {
+            return [1, 2, 3];
+        }
+        let [a, b, c] = fn1
+        ;
+    }
+
+    // 函数参数的定义
+    {
+        // 有序序列
+        let fn1 = function ([x, y, z]) {
+        }
+        fn1([1, 2, 3])
+
+        // 无序序列
+        let fn2 = function ({x, y, z}) {
+        }
+        fn2({z: 1, y: 2, x: 3})
+    }
+
+    //提取JSON数据
+    {
+        let jsonData = {
+            id: 42,
+            status: "OK",
+            data: [867, 5309]
+        };
+        let {id, status, data: number} = jsonData;
+    }
+
+    //函数参数默认值
+    {
+        // jQuery.ajax = function (url, {
+        //     async = true,
+        //     beforeSend = function () {},
+        //     cache = true,
+        //     complete = function () {},
+        //     crossDomain = false,
+        //     global = true,
+        //     // ... more config
+        // } = {}) {
+        //     // ... do stuff
+        // };
+    }
+
+    // 遍历Map结构
+    {
+        // const map = new Map();
+        // map.set('first', 'hello');
+        // map.set('second', 'world');
+        //
+        // for (let [key, value] of map) {
+        //     console.log(key + " is " + value);
+        // }
+        // // first is hello
+        // // second is world
+    }
+
+    // 模块指定输入哪些方法
+    {
+        // const {a,b} = require("model")
     }
 }
