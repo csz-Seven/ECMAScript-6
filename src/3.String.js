@@ -173,9 +173,9 @@
     console.log(`8.padEnd 's'.padEnd(5) 默认补全空格`, 's'.padEnd(5))
 
     // 提示字符串格式
-    console.log(`8.padStart '08-22'.padStart(10,'YYYY-MM-DD')`,'08-22'.padStart(10,'YYYY-MM-DD'))
+    console.log(`8.padStart '08-22'.padStart(10,'YYYY-MM-DD')`, '08-22'.padStart(10, 'YYYY-MM-DD'))
     // 需要完善
-    console.log(`8.padStart '088-22'.padStart(10,'YYYY-MM-DD')`,'088-22'.padStart(10,'YYYY-MM-DD'))
+    console.log(`8.padStart '088-22'.padStart(10,'YYYY-MM-DD')`, '088-22'.padStart(10, 'YYYY-MM-DD'))
 }
 
 
@@ -185,8 +185,9 @@
  *  Email:csz.seven@gmail.com
  *  描述:9.matchAll()
  *  标记
-*/
-{}
+ */
+{
+}
 
 
 /**
@@ -194,7 +195,61 @@
  *  时间:2018/8/23 10:55
  *  Email:csz.seven@gmail.com
  *  描述:10.模板字符串
-*/
+ */
 {
 
+    //模板字符串的大括号内部，就是执行 JavaScript 代码
+
+    // 普通字符串
+    console.log(`10.模块字符串 In JavaScript '\\n' is a line-feed.`)
+
+    // 多行字符串
+    // 如果使用模板字符串表示多行字符串，所有的空格和缩进都会被保留在输出之中。
+    // 去除换行,可以使用trim方法消除它.
+    console.log(`10.模块字符串 In JavaScript this is
+ not legal.`)
+
+    // 字符串嵌入变量
+    let name = 'Seven'
+    console.log(`10.模块字符串 ${name}`)
+
+    // ${} 大括号内部可以放入任意的 JavaScript 表达式，可以进行运算，以及引用对象属性。
+    {
+        let x = 1;
+        let y = 2;
+        console.log(`10.模块字符串 ${x} + ${y} = ${x + y}`)
+    }
+
+    // ${}内部允许调用函数
+    {
+        let fn = function () {
+            return '${fn}'
+        }
+        console.log(`10.模块字符串 ${fn()}`)
+    }
+
+    // 引用模板字符串本身
+    {
+        // 1.
+        let str = 'return' + '`10.模块字符串 ${name}-1`'
+        let fn = new Function('name', str)
+        console.log(fn('我是变量'))
+    }
+    {
+        //2.
+        let str = '(name) => `10.模块字符串 ${name}-2`'
+        let fn = eval.call(null, str)
+        console.log(fn('我是变量'))
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/24 17:03
+ *  Email:csz.seven@gmail.com
+ *  描述:11.模板编译
+*/
+{
+    
 }
