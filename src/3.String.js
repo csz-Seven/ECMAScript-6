@@ -249,7 +249,176 @@
  *  时间:2018/8/24 17:03
  *  Email:csz.seven@gmail.com
  *  描述:11.模板编译
-*/
+ *  标记
+ */
 {
-    
+    let template = `
+<ul>
+  <% for(let i=0; i < data.supplies.length; i++) { %>
+    <li><%= data.supplies[i] %></li>
+  <% } %>
+</ul>
+`;
+    // 生成类似的模板
+    // 思路 转换为这样
+    // echo('<ul>');
+    // for(let i=0; i < data.supplies.length; i++) {
+    //     echo('<li>');
+    //     echo(data.supplies[i]);
+    //     echo('</li>');
+    // };
+    // echo('</ul>');
+
+    let compile = function (template) {
+        const evalExpr = /<%=(.+?)%>/g;
+        const expr = /<%([\s\S]+?)%>/g;
+
+        template = template
+            .replace(evalExpr, '`); \n  echo( $1 ); \n  echo(`')
+            .replace(expr, '`); \n $1 \n  echo(`');
+
+        template = 'echo(`' + template + '`);';
+
+        let script = `(function () {
+            let output = '';
+
+            function echo(html) {
+                output += html
+            }
+
+            ${template}
+            
+            return output;
+        })`;
+
+        return script;
+    }
+
+    let parse = eval(compile(template));
+    // div.innerHTML = parse({supplies:['11.模板编译']})
 }
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/25 14:34
+ *  Email:csz.seven@gmail.com
+ *  描述:12.标签模板
+ */
+{
+    // 模板字符串，可以紧跟在一个函数后面,该函数被调用来处理这个模板字符串.
+    {
+        console.log`12.标签模板 console.log\`12.标签模板\``
+        // alert`12`
+        // 等价于
+        // alert(12)
+    }
+
+    // 标签模板其实不是模板，而是函数调用的一种特殊形式.“标签”指的就是函数，紧跟在后面的模板字符串就是它的参数。
+    {
+        let a = 7;
+        let b = 77;
+
+        // tag`Hello ${ a + b } world ${ a * b }`;
+        // 等同于
+        // tag(['Hello ', ' world ', ''], 15, 50);
+
+        // tag函数的第一个参数是一个数组，该数组的成员是模板字符串中那些没有变量替换的部分，也就是说，变量替换只发生在数组的第一个成员与第二个成员之间、第二个成员与第三个成员之间，以此类推。
+    }
+
+    // 参数按原样位置拼接
+    {
+        let passthru = function (literals) {
+            let result = '';
+            let i = 0;
+
+            // （["The total is ", " (", " with tax)"], 30, 31.5）
+            while (i < literals.length) {
+                result += literals[i++];
+                if (i < arguments.length) {
+                    result += arguments[i]
+                }
+            }
+
+            return result
+        }
+        let total = 30;
+        let msg = passthru`The total is ${total} (${total * 1.05} with tax)`;
+        console.log(`12.标签模板 参数按原样位置拼接`, msg)
+    }
+
+    // rest参数写法
+    {
+        let passthru2 = function (literals, ...values) {
+            let output = ''
+            let index;
+            console.log(`12.标签模板 参数按原样位置拼接 rest参数写法`, values)
+            for (index = 0; index < values.length; index) {
+                output += literals[index] + values[index];
+            }
+            output += literals[index]
+            return output;
+        }
+        let total = 30;
+        // let msg = passthru2`The total is ${total} (${total * 1.05} with tax)`;
+    }
+
+    // 应用之一：过滤HTML字符串，防止用户输入恶意内容.
+    {
+        let SaferHTML = function (templateDate) {
+            let s = templateDate[0]
+            for (let i = 1; i < arguments.length; i++) {
+                let arg = String(arguments[i]);
+
+                // 过滤标签
+                s += arg.replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;");
+
+                s += templateDate[i];
+            }
+
+            return s;
+        }
+
+        let sender = 'aaa'
+        let message =
+            SaferHTML`<p>${sender} has sent you a message.</p>`;
+        console.log(`12.标签模板 过滤HTML  ${message}`)
+    }
+
+    // 应用之一：国际化语言处理
+    {
+        // i18n`Welcome to ${siteName}, you are visitor number ${visitorNumber}!`
+    }
+
+    // 模板处理函数 raw属性 保存着转义后的字符串
+    {
+
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/28 15:18
+ *  Email:csz.seven@gmail.com
+ *  描述:String.raw()
+ */
+{
+    //String.raw方法可以作为处理模板字符串的基本方法，它会将所有变量替换，而且对斜杠进行转义，方便下一步作为字符串来使用。
+    String.raw`Hi\u000A!`;
+    // 返回 "Hi\\u000A!"
+
+    //如果原字符串的斜杠已经转义，那么String.raw会进行再次转义。
+    String.raw`Hi\\n`
+    // 返回 "Hi\\\\n"
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/8/28 15:32
+ *  Email:csz.seven@gmail.com
+ *  描述:模板字符串的限制
+*/
