@@ -72,11 +72,105 @@
     /***参数默认值的位置***/
     {
         // 默认值应该写在尾部 方便触发
-        let f1 = function(x, y = 5, z) {
+        let f1 = function (x, y = 5, z) {
             return [x, y, z];
         }
-        let f2 = function(x = 1, y) {
+        let f2 = function (x = 1, y) {
             return [x, y];
+        }
+    }
+
+    /***函数的length属性***/
+    {
+        //length属性的返回值，等于函数的参数个数减去指定了默认值的参数个数
+        console.log(`1.fn.length  (function (a, b, c = 5) {}).length `, (function (a, b, c = 5) {
+        }).length)
+
+        //ps:设置了默认值的参数不是尾参数，那么length属性也不再计入后面的参数了
+        console.log(`1.fn.length  (function (a,  c = 5,b) {}).length `, (function (a, c = 5, b) {
+        }).length)
+    }
+
+    /***作用域***/
+    {
+        //不会指向全局变量
+        {
+            let x = 1;
+            let fn1 = function (x, y = x) {
+                console.log(y)
+            }
+            // fn1(2)
+        }
+
+        // 当全局变量 以及函数定义不存在时
+        {
+            let fn2 = function (y = z) {
+                console.log(z)
+            }
+            // fn2()
+        }
+
+        //如果参数的默认值是一个函数，该函数的作用域也遵守这个规则。
+        {
+            let foo = 'outer'
+            let fn3 = function (func = () => foo) {
+                let foo = 'inner';
+                console.log(func())
+            }
+            // fn3()  outer
+        }
+
+        //复杂例子
+        {
+            var k = 1;
+
+            function foo(k, y = function () {
+                k = 2;
+            }) {
+                //此处重新声明需要注意
+                var k = 3;
+                y()
+                console.log(k);
+            }
+
+            // foo()   3
+            // console.log(k) 1
+        }
+
+        // 应用
+        {
+            //参数的默认值不是在定义时执行，而是在运行时执行。如果参数已经赋值，默认值中的函数就不会运行。
+            //利用参数默认值，可以指定某一个参数不得省略，如果省略就抛出一个错误。
+            let fn1 = function () {
+                throw new Error('Missing parameter')
+            }
+            let fn2 = function (p = fn1()) {
+                return p
+            }
+
+            // Error: Missing parameter
+            // fn2()
+
+            // 参数设置为undefined ，表明是可以缺省的.
+            let fn3 = function (option = undefined) {
+
+            }
+        }
+
+        // rest参数   (...变量名)
+        {
+            // rest参数 代替 arguments
+            // arguments对象不是数组，而是一个类似数组的对象。
+            //函数的length属性，不包括 rest 参数。
+            //用于获取函数的多余参数，这样就不需要使用arguments对象了。rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。
+            let fn = function (...values) {
+                let sum = 0;
+                for (let val of values) {
+                    sum += val
+                }
+                return sum
+            }
+            console.log(fn(1, 2, 3, 4, 5, 6))
         }
     }
 }
