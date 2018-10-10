@@ -294,10 +294,103 @@
             //这个箭头函数的定义生效是在foo函数生成时，而它的真正执行要等到 100 毫秒后。
             setTimeout(() => {
                 console.log(`5.箭头函数 this指向 ->id: ${this.id}`)
-            },100)
+            }, 100)
         }
         // call() 方法调用一个函数, 其具有一个指定的this值和分别地提供的参数
         // 和 apply() 方法类似，只有一个区别，就是call()方法接受的是若干个参数的列表，而apply()方法接受的是一个包含多个参数的数组。
         fn.call({id: 77})
+
+
+        {
+            // 箭头函数可以让setTimeout里面的this，绑定定义时所在的作用域，而不是指向运行时所在的作用域。
+            let Timer = function () {
+                this.s1 = 0;
+                this.s2 = 0;
+
+                //    箭头函数
+                setInterval(() => {
+                    this.s1++;
+                }, 1000)
+
+                setInterval(function () {
+                    this.s2++;
+                }, 1000)
+            }
+
+            var timer = new Timer();
+
+            setTimeout(() => console.log(`5.箭头函数 this指向 s1 ${timer.s1}`), 3100)
+            setTimeout(() => console.log(`5.箭头函数 this指向 s2 ${timer.s2}`), 3100)
+        }
+
+        {
+            // 箭头函数可以this指向固定化，这种特性利于封装回调函数.
+            let handler = {
+                id: '77',
+
+                init: function () {
+                    document.addEventListener('click', (event) => {
+                        this.doSomething(event.type)
+                    }, false)
+                },
+
+                doSomething: function (type) {
+                    console.log('handler' + type + ' for ' + this.id)
+                }
+            }
+        }
+
+        {
+            // 箭头函数没有绑定this的机制，实际原因 箭头函数没有自身的this，导致内部this指向外层代码的this
+
+            let fooES6 = function () {
+                setTimeout(() => {
+                    console.log('id:', this.id)
+                }, 100)
+            }
+
+            // ES5如下
+            let fooES5 = function () {
+                var _this = this;
+
+                setTimeout(function () {
+                    console.log('id:', _this.id)
+                }, 100)
+            }
+        }
+
+        {
+            //除了this,一下三个变量箭头函数也不存在，都指向外层函数:arguments super new.target
+            let fn = function () {
+                setTimeout(() => {
+                    console.log('5.箭头函数 argument', arguments)
+                }, 100)
+            }
+
+            fn(2, 4, 6, 8, 10)
+
+            // 没有自身this,也不使用call()\apply()\bind()改变this指向
+        }
+    }
+
+    // 3.不适用的场景(箭头函数使得this从“动态”变成“静态”）
+    {
+        // 1.定义函数方法，且该方法内部包括this.
+        const cat = {
+            lives: 7,
+            jumps: () => {
+                this.lives--;
+            }
+        }
+
+        // cat.jumps()  this指向了全局对象，出现报错
+
+
+        // 2.需要动态this的时候
+        const button = document.getElementById('press')
+        // button.addEventListener('click', () => {
+        // 此时的this指向全局，无法动态指向 click的对象
+        // this.classList
+        // })
     }
 }
