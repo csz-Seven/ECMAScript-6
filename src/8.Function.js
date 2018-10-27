@@ -393,4 +393,158 @@
         // this.classList
         // })
     }
+
+    // 嵌套的箭头函数
+    {
+        // ES5中的多层嵌套
+        function insertES5(value) {
+            return {
+                into: function (array) {
+                    return {
+                        after: function (afterValue) {
+                            array.splice(array.indexOf(afterValue) + 1, 0, value)
+                            return array;
+                        }
+                    }
+                }
+            }
+        }
+
+        // ES6中的多层嵌套
+        let insert = (value) => ({
+            into: (array) => ({
+                after: (afterValue) => {
+                    array.splice(array.indexOf(afterValue) + 1, 0, value);
+                    return array
+                }
+            })
+        })
+        insert(2).into([1, 3]).after(1); //[1, 2, 3]
+    }
+
+    // 管道机制，即前一个函数的输出是最后一个函数的输入。
+    {
+        const pipeline = (...funcs) =>
+            val => funcs.reduce((a, b) => b(a), val)
+
+        const plus1 = a => a + 1;
+        const mult2 = a => a * 2;
+        const addThenMult = pipeline(plus1, mult2)
+
+        console.log(`5.箭头函数 管道机制addThenMult值 =>`, addThenMult(5))
+    }
+
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/10/27 13:34
+ *  Email:csz.seven@gmail.com
+ *  描述:6.双冒号运算符
+ *  箭头函数可以绑定this对象，大大减少了显示绑定this对象的写法(call、apply\bind)-但是不适用与每个场景。
+ *  函数绑定运算符是并排的两个冒号，双冒号左边为一个对象，右边是一个函数。该运算符将自动将左边的对象，作为上下文环境(this)，绑定到右边函数.
+ */
+{
+    const obj = {}
+    const fn = function () {
+    }
+
+    obj::fn;
+    // 等同于
+    fn.bind(obj)
+
+    // obj::fn(...arguments)
+    // 等同于
+    // fn.apply(obj,arguments)
+
+    const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+    function hasOwn(obj, key) {
+        return obj::hasOwnProperty(key)
+    }
+
+
+    // 双冒号左边为空，右边是一个对象的方法，则等于将该方法绑定在该对象上面
+    let log1 = ::console.log;
+    // 等同于
+    const log2 = console.log.bind(console)
+
+    // 如果双冒号运算符的运算结果，还是一个对象，就可以采用链式写法。
+    // x::y::z
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/10/27 14:39
+ *  Email:csz.seven@gmail.com
+ *  描述:7.尾调用优化
+ *  尾调用：某个函数的最后一步调用另一个函数
+ */
+{
+    // 1.什么是尾调用
+    {
+        // 尾调用例子
+        const fn1 = function (x) {
+            return g(x);
+        }
+
+
+        // 一下三种情况，不属于尾调用
+        {
+            // 尾部还有赋值操作
+            const fn1 = function (x) {
+                let y = g(x);
+                return y
+            }
+
+            // 尾调用后还有其他操作，既是在同一行
+            const fn2 = function (x) {
+                return g(x) + 1;
+            }
+
+            // 情况三等价于fn4
+            const fn3 = function (x) {
+                g(x)
+            }
+            // 等价于
+            const fn4 = function () {
+                g(x);
+                return undefined;
+            }
+        }
+
+
+        // 尾调用不一定出现在函数尾部，只要是最后一步操作即可.
+    }
+
+
+    // 尾调用优化
+    // 如果函数g不是尾调用，函数f就需要保存内部变量m和n的值、g的调用位置等信息。但由于调用g之后，函数f就结束了，所以执行到最后一步，完全可以删除f(x)的调用帧，只保留g(3)的调用帧。
+    // 这就叫做“尾调用优化”（Tail call optimization），即只保留内层函数的调用帧。如果所有函数都是尾调用，那么完全可以做到每次执行时，调用帧只有一项，这将大大节省内存。这就是“尾调用优化”的意义。
+    {
+        const fn1 = function () {
+            let m =1;
+            let n=2;
+            return g(m+n)
+        }
+
+        // 等价于
+        const fn2 = function () {
+            return g(3)
+        }
+
+        // 等价于
+        // g(3)
+
+        //只有不再用到外层函数的内部变量，内层函数的调用帧才会取代外层函数的调用帧，否则就无法进行“尾调用优化”。
+    }
+
+
+    // 尾递归
+    {
+        // 函数调用自身，称为递归。如果尾调用自身，就称为尾递归。
+        //递归非常耗费内存，因为需要同时保存成千上百个调用帧，很容易发生“栈溢出”错误（stack overflow）。但对于尾递归来说，由于只存在一个调用帧，所以永远不会发生“栈溢出”错误。
+    }
 }
