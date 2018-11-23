@@ -120,7 +120,7 @@
             console.log(`1.扩展运算符 Map [...map.keys()]`, [...map.keys()])
 
             // Generator
-            const go=function *() {
+            const go = function* () {
                 yield 1;
                 yield 2;
                 yield 3;
@@ -136,7 +136,118 @@
  *  时间:2018/10/30 14:30
  *  Email:csz.seven@gmail.com
  *  描述:2.Array.from()
-*/
+ *  方法用于将1.类似数组的对象（array-like object）2.可遍历的对象（iterable）转换成真正的数组
+ */
 {
+    let array = {
+        '0': 'a',
+        '1': 'b',
+        '2': 'c',
+        length: 3
+    }
 
+    //es5
+    //slice() 方法返回一个新的数组对象，这一对象是一个由 begin和 end（不包括end）决定的原数组的浅拷贝。原始数组不会被改变
+    let arr1 = [].slice.call(array)
+
+    //es6
+    // 常见的类似数组的对象是 DOM 操作返回的 NodeList 集合，以及函数内部的arguments对象。Array.from都可以将它们转为真正的数组。
+    let arr2 = Array.from(array)
+
+    // 只要部署了Iterator接口的数据结构
+    Array.from('Iterator')
+
+    let nameSet = new Set(['a', 'b'])
+    Array.from(nameSet)
+
+
+    // 扩展运算符（...）也可以将某些数据结构转为数组。
+    // arguments、nodeList
+    let fn1 = function () {
+        const args = [...arguments]
+    }
+
+    // 扩展运算符内部调用的是（Symbol.iterator），如果没有则无法转换
+    // Array.from支持转换类似数组的对象(任何有length属性的对象，都可以通过)
+    Array.from({length: 3});
+
+    // 兼容模式写法
+    const toArray = (() => {
+        Array.from ? Array.from : obj => [].slice.call(obj)
+    })()
+
+    // Array.from接受第二个参数,类似map方法，用于处理每个元素.
+    Array.from([1, 2, 3], (x) => {
+        return x * x
+    })
 }
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/11/23 15:51
+ *  Email:csz.seven@gmail.com
+ *  描述:3.Array.of()
+ *  将一组值转换为数组
+ */
+{
+    //Array.of基本上可以用来替代Array()或new Array()，并且不存在由于参数不同而导致的重载。它的行为非常统一。
+    Array.of(7, 2, 3)
+
+    Array(3)
+    Array(3, 7)
+
+    // 实现写法
+    const ArrayOf = function () {
+        return [].slice().call(arguments)
+    }
+}
+
+/**
+ *  作者:Seven
+ *  时间:2018/11/23 15:59
+ *  Email:csz.seven@gmail.com
+ *  描述:4.数组实例copyWithin()
+ *  数组实例的copyWithin方法，在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组。也就是说，使用这个方法，会修改当前数组。
+ *  它接受三个参数。
+ target（必需）：从该位置开始替换数据。如果为负值，表示倒数。
+ start（可选）：从该位置开始读取数据，默认为 0。如果为负值，表示倒数。
+ end（可选）：到该位置前停止读取数据，默认等于数组长度。如果为负值，表示倒数。
+ */
+{
+    [1, 2, 3, 4, 5].copyWithin(0, 3); // [4,5,3,4,5]
+    [1, 2, 3, 4, 5].copyWithin(0, 3, 4) // [4,2,3,4,5]
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/11/23 16:08
+ *  Email:csz.seven@gmail.com
+ *  描述:5.数组实例的find()和findIndex()
+ */
+{
+    // 数组实例的find方法，用于找出第一个符合条件的数组成员。它的参数是一个回调函数，所有数组成员依次执行该回调函数，直到找出第一个返回值为true的成员，然后返回该成员。如果没有符合条件的成员，则返回undefined。
+    // find((value,index,arr)=>{})
+    [1, 4, -5, 10].find((value, index, arr) => value < 0); // [-5]
+
+    // findIndex方法，返回第一个符合条件的数组成员位置,如果所有成员都不符合返回-1.
+    [1, 4, -5, 10].findIndex((value, index, arr) => value < 0); // [2]
+
+    //两个方法都可以接受第二个参数，用来绑定回调函数的this对象。
+    [1, 3, 4, 5, 6].find(function (v) {
+        return v > this
+    }, 3);  // 4
+
+    //这两个方法都可以发现NaN，弥补了数组的indexOf方法的不足。
+    [NaN].indexOf(NaN);        // -1
+    [NaN].findIndex(y => Object.is(NaN, y)); // 0
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/11/23 17:37
+ *  Email:csz.seven@gmail.com
+ *  描述:6.数组实例fill()
+*/
