@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     // entry: "./src/index.js",
     entry: {
-        app: './src/9.Array.js',
+        app: './src/10.Object.js',
     },
     // source-map
     devtool: "inline-source-map",
