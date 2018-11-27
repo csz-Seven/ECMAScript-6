@@ -4,6 +4,7 @@
  *  Email:csz.seven@gmail.com
  *  描述:数组的扩展
  */
+import pr from './helper/printf'
 
 
 /**
@@ -250,4 +251,116 @@
  *  时间:2018/11/23 17:37
  *  Email:csz.seven@gmail.com
  *  描述:6.数组实例fill()
-*/
+ *  fill方法使用给定值，填充一个数组。
+ */
+{
+    ['a', 'b', 'c'].fill(7);
+    new Array(3).fill(7);// [7,7,7]
+
+    // fill方法还可以接受第二个和第三个参数，用于指定填充的起始位置和结束位置。
+    ['1', '1', '1'].fill(7, 1, 2);
+
+    //如果填充的类型为对象，那么被赋值的是同一个内存地址的对象，而不是深拷贝对象。
+    let arr = new Array(3).fill({name: 'seven'});
+    arr[0].name = '7';
+    arr // [7,7,7]
+
+    let arr2 = new Array(3).fill([]);
+    arr2[0].push(5);
+    arr2 //[5,5,5]
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/11/27 15:52
+ *  Email:csz.seven@gmail.com
+ *  描述:7.数组实例的 entries()，keys() 和 values()
+ */
+{
+    // keys 遍历键名
+    for (let index of ['a', 'b'].keys()) {
+        console.log(index)
+    }
+
+    // values 遍历键值
+    for (let value of ['a', 'b'].keys()) {
+        console.log(value)
+    }
+
+    // entries 遍历 键值
+    for (let [index, value] of ['a', 'b'].entries()) {
+        console.log(index)
+    }
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/11/27 16:01
+ *  Email:csz.seven@gmail.com
+ *  描述:8. 数组实例的includes()
+ *  Array.prototype.includes方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的includes方法类似
+ */
+{
+    [1, 2, 3].includes(2); // true
+
+    // 该方法的第二个参数表示搜索的起始位置，默认为0。
+    [1, 2, 3].includes(3, 3);  // false
+
+    //indexOf方法有两个缺点，一是不够语义化，它的含义是找到参数值的第一个出现位置，所以要去比较是否不等于-1，表达起来不够直观。二是，它内部使用严格相等运算符（===）进行判断，这会导致对NaN的误判。
+    NaN.indexOf(NaN); // false
+    [NaN].includes(NaN); // true
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/11/27 16:16
+ *  Email:csz.seven@gmail.com
+ *  描述:9.数组实例的flat()、flatMap()
+ */
+{
+    //数组的成员有时还是数组，Array.prototype.flat()用于将嵌套的数组“拉平”，变成一维的数组。该方法返回一个新数组，对原数据没有影响。
+    [1, 2, [3], [4, 5]].flat(); // [1,2,3,4,5]
+
+    // flat()默认只会“拉平”一层，如果想要“拉平”多层的嵌套数组，可以将flat()方法的参数写成一个整数，表示想要拉平的层数，默认为1。
+    [1, 2, 3, [4, [5]]].flat(); // [1,2,3,4,[5]]
+    [1, 2, 3, [4, [5]]].flat(2); // [1,2,3,4,5]
+
+    //如果不管有多少层嵌套，都要转成一维数组，可以用Infinity关键字作为参数。
+    [1, 2, 3, [4, [5, [6, [7, [8]]]]]].flat(Infinity); // [1,2,3,4,5,6,7,8]
+
+    // 数组存在空位，则跳过空位
+    [1, 2, 3,].flat();
+
+
+    //flatMap()方法对原数组的每个成员执行一个函数（相当于执行Array.prototype.map()），然后对返回值组成的数组执行flat()方法。该方法返回一个新数组，不改变原数组。
+    [2, 3, 4].flatMap((x) => [x, x * x]); // [2,4,3,9,4,16]
+
+    //flatMap()只能展开一层数组(flat(1))。
+    [1, 2, 3, 4].flatMap(x => [[x * x]]) // [[1],[4],[9],[16]]
+
+    // flatMap()方法的参数是一个遍历函数，该函数可以接受三个参数，分别是当前数组成员、当前数组成员的位置（从零开始）、原数组。
+}
+
+
+/**
+ *  作者:Seven
+ *  时间:2018/11/27 16:37
+ *  Email:csz.seven@gmail.com
+ *  描述:10.数组的空位
+ *  数组的空位指，数组的某一个位置没有任何值。
+ */
+{
+    Array(3) // [, , ,]
+    //ES5 对空位的处理，已经很不一致了，大多数情况下会忽略空位。
+    //
+    // forEach(), filter(), reduce(), every() 和some()都会跳过空位。
+    // map()会跳过空位，但会保留这个值
+    // join()和toString()会将空位视为undefined，而undefined和null会被处理成空字符串。
+
+    //ES6 则是明确将空位转为undefined。
+
+    // !!!开发避免空位的出现!!!
+}
