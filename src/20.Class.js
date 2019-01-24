@@ -190,4 +190,164 @@
     // 使用Proxy自动绑定this.
   }
 
+  //2.静态方法
+  // 类相当于实例的原型，所有在类中定义的方法，都会被实例继承。如果在一个方法前，加上static关键字，就表示该方法不会被!!!实例!!!继承，而是直接通过类来调用，这就称为“静态方法”。
+  {
+    class case1 {
+      static doSth1() {
+        console.log('static静态方法')
+      }
+    }
+
+    case1.doSth1()
+    let newCase1 = new case1()
+    try {
+      newCase1.doSth1();
+    } catch (e) {
+      console.log('无法调用:->newCase1.doSth1()')
+    }
+
+    // 如果静态方法包含this关键字，这个this指的是类，而不是实例。
+    class case2 {
+      static doSth1() {
+        //等价于 case2.doSth2()
+        this.doSth2()
+      }
+
+      static doSth2() {
+        console.log('case2.doSth2')
+      }
+
+      //doSth2 二者不一样
+      doSth2() {
+        console.log('实例.doSth2')
+      }
+    }
+
+    case2.doSth2()
+
+    // 静态方法虽然不会被！！！实例！！！继承，但是会被！！！子类！！！继承
+    class case3 {
+      static doSth1() {
+        console.log('case3')
+      }
+    }
+
+    class case3Child extends case3 {
+    }
+
+    case3Child.doSth1()
+
+    //静态方法也是可以从super对象上调用的。
+    class case4 {
+      static doSth1() {
+        console.log(`case4`)
+      }
+    }
+
+    class case4Child extends case4 {
+      static doSth1() {
+        super.doSth1()
+      }
+    }
+
+    case4Child.doSth1()
+  }
+
+
+  // 3.实例属性的新写法
+  // 实例属性除了定义在constructor()方法里面的this上面，也可以定义在类的最顶层。
+  {
+    //实例属性this._count定义在constructor()方法里面。
+    //另一种写法是，这个属性也可以定义在类的最顶层，其他都不变。
+    // class case1{
+    //   sth1 = "3.实例属性的新写法 case1";
+    //   get doSth (){
+    //     console.log(this.sth1)
+    //   }
+    // }
+    // let newCase1 = new case1()
+    // newCase1.doSth
+  }
+
+  // 4.静态属性
+  // 静态属性指的是Class本身的属性,即Class.propName，而不是定义在实例对象(this)上的属性.
+  {
+    // 旧写法
+    class case1 {
+    }
+
+    case1.sth = '4.静态属性 case1'
+    console.log(case1.sth)
+
+    // 新写法
+    //提案-提供了类的静态属性，写法是在实例属性法的前面，加上static关键字。
+    class case2 {
+      static sth = '4.静态属性 case2'
+    }
+
+    console.log(case2.sth)
+  }
+
+  // 5.私有方法和私有属性
+  {
+    //现有的解决方案
+    // 1.使用命名区分
+    class case1 {
+      doSth() {
+      }
+
+      //私用_
+      _doSth() {
+      }
+    }
+
+    // 2.因为模块内部的所有方法都是对外可见的,将私有方法移出模块
+    {
+      let doSth2 = function (v) {
+        return this.v = v
+      }
+
+      class case2 {
+        doSth1(v) {
+          doSth2.call(this, v)
+        }
+      }
+    }
+
+    // 3.还有一种方法是利用Symbol值的唯一性,将私有方法的名字命名为Symbol值.
+
+    // 私有属性的提案
+    // 在属性前面增加 # 前缀
+    // 私有属性，只能在类的内部使用,外部使用会报错.
+    // 私有属性不限于从this引用，只要是在类的内部，实例也可以引用私有属性。
+    // 私有属性和私有方法前面，也可以加上static关键字，表示这是一个静态的私有属性或私有方法。
+    class case4 {
+      #sth = '5.私有属性 case4'
+
+      #doSth() {
+        console.log('5.私有方法 case4')
+      }
+
+      get value() {
+        console.log(this.#sth);
+      }
+    }
+  }
+
+  // 6.new.target属性
+  // new命令引入了一个new.target属性，该属性一般用在构造函数之中，返回new命令作用于的那个构造函数。
+  // 如果构造函数不是通过new命令调用的，new.target会返回undefined，因此这个属性可以用来确定构造函数是怎么调用的。
+  {
+    class case1 {
+      constructor() {
+        if (new.target === case1) {
+          this.sth = '6.new.target属性 sth'
+        } else {
+          console.log('需使用new命令生成实例')
+        }
+      }
+    }
+    // new.target会被子类继承，此时的new.target是子类的构造函数.
+  }
 }
