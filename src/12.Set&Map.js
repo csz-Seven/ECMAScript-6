@@ -3,7 +3,7 @@
  *  时间:2019/2/11 17:37
  *  Email:csz.seven@gmail.com
  *  描述:Set和Map数据结构
-*/
+ */
 {
   // 1.Set
   // 基本用法
@@ -25,5 +25,15 @@
   // WeakMap的语法
   // WeakMap的实例
   // WeakMap的用途
+  {
+    // Dom节点的存放 不存在内存泄漏问题。
+    let element = document.getElementById('element');
+    let weakMap = new WeakMap();
 
+    weakMap.set(element, {clickNum: 0});
+    element.addEventListener('click', function () {
+      let elementData = weakMap.get(element)
+      elementData.clickNum++;
+    })
+  }
 }
